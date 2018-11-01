@@ -1,1 +1,2 @@
 # JavaSePractice
+java practice artifacts
