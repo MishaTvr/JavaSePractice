@@ -1,2 +1,1 @@
-# JavaSePractice
-java practice artifacts
+# Mailer
