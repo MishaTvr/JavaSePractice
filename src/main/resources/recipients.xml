@@ -1,0 +1,29 @@
+<?xml version = "1.0"?>
+<workers>
+    <worker>
+        <mail>worker1@worker1.ru</mail>
+        <properties>
+            <property>
+                <name>full-name</name>
+                <value>Worker1</value>
+            </property>
+            <property>
+                <name>department</name>
+                <value>Solution Delivery</value>
+            </property>
+        </properties>
+    </worker>
+    <worker>
+        <mail>worker2@worker.ru</mail>
+        <properties>
+            <property>
+                <name>full-name</name>
+                <value>Worker2</value>
+            </property>
+            <property>
+                <name>department</name>
+                <value>R&amp;D</value>
+            </property>
+        </properties>
+    </worker>
+</workers>
