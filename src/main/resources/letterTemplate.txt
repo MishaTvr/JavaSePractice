@@ -1,0 +1,6 @@
+from: NetCracker corp.
+to: %nam (%dep)
+
+Dear %nam, for last month you earned %sal . All the best, goodbye.
+
+date: %dat
