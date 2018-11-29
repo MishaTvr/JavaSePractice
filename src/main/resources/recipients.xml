@@ -1,7 +1,7 @@
 <?xml version = "1.0"?>
 <workers>
     <worker>
-        <mail>worker1@worker1.ru</mail>
+        <mail>b476@@yandex.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>
@@ -11,10 +11,14 @@
                 <name>department</name>
                 <value>Solution Delivery</value>
             </property>
+            <property>
+                <name>salary</name>
+                <value>10000 USD</value>
+            </property>
         </properties>
     </worker>
     <worker>
-        <mail>worker2@worker.ru</mail>
+        <mail>yagodarov.dmitry@yandex.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>
@@ -23,6 +27,112 @@
             <property>
                 <name>department</name>
                 <value>R&amp;D</value>
+            </property>
+            <property>
+                <name>salary</name>
+                <value>150 USD</value>
+            </property>
+        </properties>
+    </worker>
+    <worker>
+        <mail>yagodarov.dmitry@@yandex.ru</mail>
+        <properties>
+            <property>
+                <name>full-name</name>
+                <value>Worker3</value>
+            </property>
+            <property>
+                <name>department</name>
+                <value>Solution Delivery</value>
+            </property>
+            <property>
+                <name>salary</name>
+                <value>1000 USD</value>
+            </property>
+        </properties>
+    </worker>
+    <worker>
+        <mail>b476@yandex.ru</mail>
+        <properties>
+            <property>
+                <name>full-name</name>
+                <value>Worker4</value>
+            </property>
+            <property>
+                <name>department</name>
+                <value>DREC</value>
+            </property>
+            <property>
+                <name>salary</name>
+                <value>1000000000 USD</value>
+            </property>
+        </properties>
+    </worker>
+    <worker>
+        <mail>b476@yandex.ru</mail>
+        <properties>
+            <property>
+                <name>full-name</name>
+                <value>Worker5</value>
+            </property>
+            <property>
+                <name>department</name>
+                <value>SolutionHuution</value>
+            </property>
+            <property>
+                <name>salary</name>
+                <value>10000 USD</value>
+            </property>
+        </properties>
+    </worker>
+    <worker>
+        <mail>b476@yandex.ru</mail>
+        <properties>
+            <property>
+                <name>full-name</name>
+                <value>Worker6</value>
+            </property>
+            <property>
+                <name>department</name>
+                <value>H&amp;R</value>
+            </property>
+            <property>
+                <name>salary</name>
+                <value>500 USD</value>
+            </property>
+        </properties>
+    </worker>
+    <worker>
+        <mail>georg_the_hunter@mail.ru</mail>
+        <properties>
+            <property>
+                <name>full-name</name>
+                <value>Worker7</value>
+            </property>
+            <property>
+                <name>department</name>
+                <value>Solution Delivery</value>
+            </property>
+            <property>
+                <name>salary</name>
+                <value>10000 USD</value>
+            </property>
+        </properties>
+    </worker>
+    <worker>
+        <mail>georg_the_hunter@mail.ru</mail>
+        <properties>
+            <property>
+                <name>full-name</name>
+                <value>Worker8</value>
+            </property>
+            <property>
+                <name>department</name>
+                <value>Delivery</value>
+            </property>
+            <property>
+                <name>salary</name>
+                <value>10 USD</value>
             </property>
         </properties>
     </worker>

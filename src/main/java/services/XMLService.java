@@ -2,6 +2,7 @@ package services;
 
 
 import org.w3c.dom.Element;
+import persistence.entities.FileLoader;
 import persistence.entities.Property;
 import persistence.entities.Worker;
 import org.w3c.dom.Document;
@@ -21,17 +22,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class XMLService {
+public class XMLService implements FileLoader {
 
-    public static String fileName = "recipients.xml";
-    public static List<Worker> workerList = new ArrayList<>();
+    private static String fileName = "recipients.xml";
+    private static List<Worker> workerList = new ArrayList<>();
+    private static XMLService instance;
+
+
+    private XMLService() {
+    }
+
+    public static XMLService getInstance(){
+        if(instance == null){
+            return new XMLService();
+        }else
+            return instance;
+    }
+
+    public static List<Worker> getWorkerList() {
+        return workerList;
+    }
+
+    public List<Worker> createWorkerList() {
 
 
 
-
-    public static List<Worker> createWorkerList() {
-        String path = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator +
-                "resources" + File.separator + fileName;
+        String path = getFilePath(fileName);
 
         try {
 

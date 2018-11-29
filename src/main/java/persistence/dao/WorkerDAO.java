@@ -11,6 +11,6 @@ public class WorkerDAO<T,U> implements AbstractDAO<Worker, String> {
 
 
     public List<Worker> findAll() {
-        return XMLService.createWorkerList();
+        return XMLService.getInstance().createWorkerList();
     }
 }
