@@ -1,7 +1,7 @@
 <?xml version = "1.0"?>
 <workers>
     <worker>
-        <mail>b476@@yandex.ru</mail>
+        <mail>b476@1@yandex.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>
@@ -18,7 +18,7 @@
         </properties>
     </worker>
     <worker>
-        <mail>yagodarov.dmitry@yandex.ru</mail>
+        <mail>b476@yandex.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>
@@ -35,7 +35,7 @@
         </properties>
     </worker>
     <worker>
-        <mail>yagodarov.dmitry@@yandex.ru</mail>
+        <mail>georg_the_hunter@1@mail.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>
@@ -52,7 +52,7 @@
         </properties>
     </worker>
     <worker>
-        <mail>b476@yandex.ru</mail>
+        <mail>georg_the_hunter@mail.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>
@@ -69,7 +69,7 @@
         </properties>
     </worker>
     <worker>
-        <mail>b476@yandex.ru</mail>
+        <mail>b476@2@yandex.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>
@@ -86,7 +86,7 @@
         </properties>
     </worker>
     <worker>
-        <mail>b476@yandex.ru</mail>
+        <mail>yagodarov.dmitry@@yandex.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>
@@ -103,7 +103,7 @@
         </properties>
     </worker>
     <worker>
-        <mail>georg_the_hunter@mail.ru</mail>
+        <mail>georg_the_hunter@2@mail.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>
@@ -120,7 +120,7 @@
         </properties>
     </worker>
     <worker>
-        <mail>georg_the_hunter@mail.ru</mail>
+        <mail>yagodarov.dmitry@yandex.ru</mail>
         <properties>
             <property>
                 <name>full-name</name>

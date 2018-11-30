@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 public class ProducerException extends Exception {
     public ProducerException(String message) {super(message);}

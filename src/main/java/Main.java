@@ -1,20 +1,10 @@
 import business_logic.MailConsumer;
 import business_logic.MailProducer;
 import business_logic.orchestration.MailOrchestrator;
-import persistence.dao.WorkerDAO;
-import persistence.entities.Mail;
 import persistence.entities.Worker;
-import services.XMLService;
 import structures.MailContainer;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 public class Main {
     public static void main(String[] args) {
@@ -38,44 +28,22 @@ public class Main {
         }
         catch (Exception ex) {
             List<Worker> notSentMails = mailOrchestrator.getNotSentWorkersList();
+            List<Worker> dupEmails = mailOrchestrator.getdupEmailsWorkersList();
             if (notSentMails.size() > 0) {
                 System.out.println("NOT ALL MESSAGES WERE SENT");
                 System.out.println("The list of workers, that didn't recieve mail:");
                 for (Worker currWorker: notSentMails)
                     System.out.println(currWorker);
             }
-            System.exit(-45);
+            if (dupEmails.size() > 0) {
+                System.out.println("SOME WORKERS HAVE EQUAL EMAILS");
+                System.out.println("The list of those workers:");
+                for (Worker currWorker: dupEmails)
+                    System.out.println(currWorker);
+            }
+                System.out.println(ex.getMessage());
+            System.exit(-1);
         }
 
-
-
-
-
-        //        WorkerDAO workerDAO = new WorkerDAO();
-//        List<Worker> workerList = workerDAO.findAll();
-//
-//
-//        for (Worker worker: workerList) {
-//            Mail mail = new Mail(worker);
-//        }
-
-
-
-        //workerDAO.findAll().stream().forEach(System.out::println);
-
-
-//        try (BufferedReader reader = Files.newBufferedReader(Paths.get(path))) {
-//            StringBuilder line = new StringBuilder();
-//            while ( (message = reader.readLine()) != null) {
-//                line.append(message);
-//                line.append('\n');
-//            }
-//            message = line.toString();
-//        }
-//        catch (IOException ex) {
-//            ex.printStackTrace(System.out);
-//        }
-
     }
-
 }

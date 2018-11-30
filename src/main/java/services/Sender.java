@@ -1,6 +1,6 @@
 package services;
 
-import Exceptions.SenderException;
+import exceptions.SenderException;
 import persistence.entities.Mail;
 
 import java.util.Properties;
@@ -14,7 +14,7 @@ public class Sender {
     private static String password = "Georg_The_Hunter1998";
 
 
-    public static boolean send(Mail mail) throws SenderException {
+    public static int send(Mail mail) throws SenderException {
         Properties props;
         props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -41,6 +41,6 @@ public class Sender {
         } catch (MessagingException e) {
             throw new SenderException(mail.getEmail(), e);
         }
-        return true;
+        return 1;
     }
 }

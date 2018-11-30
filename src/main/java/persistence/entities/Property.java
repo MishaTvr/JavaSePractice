@@ -15,15 +15,7 @@ public class Property {
     public Property () {}
 
     public Property (String name, String value) {
-        this.setName(name);
-        this.setValue(value);
-    }
-
-    public void setName (String name) {
         this.name = name;
-    }
-
-    public void setValue (String value) {
         this.value = value;
     }
 

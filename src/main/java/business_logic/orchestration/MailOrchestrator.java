@@ -2,12 +2,15 @@ package business_logic.orchestration;
 
 import business_logic.MailConsumer;
 import business_logic.MailProducer;
+import exceptions.OrchestratorException;
 import persistence.entities.Worker;
 import services.XMLService;
 import structures.MailContainer;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -32,28 +35,21 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
     public List <Worker> getNotSentWorkersList() {
         return notSentWorkers;
     }
-
-
-
-
-    public static String parseException(String input) {
-        int index = input.indexOf("Exception: ") + "Exception: ".length();
-        return input.substring(index);
+    public List <Worker> getdupEmailsWorkersList() {
+        return dupEmailsWorkers;
     }
-
 
 
 
     @Override
     public void orchestrate() throws Exception {
-        List<String> notSentMails = new ArrayList<>();
+        Set<String> notSentMails = new LinkedHashSet<>();
         int mailConsumed = 0;
         int mailProduced = 0;
 
         if (producers.size() != 1) {
             System.out.println(producers.size());
-            System.out.println("ERROR: TOO MUCH PRODUCERS");
-            System.exit(1);
+            throw new OrchestratorException("TOO MANY PRODUCERS");
         }
 
         Future producerFuture = executorService.submit(producers.get(0));
@@ -66,7 +62,18 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
                 consFutureList.add(currentFuture);
         }
 
-        mailProduced = Integer.parseInt(producerFuture.get().toString());
+        try {
+            mailProduced = Integer.parseInt(producerFuture.get().toString());
+        }
+        catch (ExecutionException ex) {
+            if (ex.getMessage().contains("DUP_EMAILS_ERR!")) {
+                setdupEmailsWorkersList(producers.get(0).getDupEmails());
+                throw new OrchestratorException(ex);
+            }
+            else
+                throw new OrchestratorException(ex);
+
+        }
 
         for (Future currentNum: consFutureList) {
 
@@ -74,12 +81,12 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
                 mailConsumed += Integer.parseInt(currentNum.get().toString());
             }
             catch (ExecutionException ex) {
-                if ("sender".equals(ex.getCause().getMessage())) {
-                    String report = ex.getCause().getCause().getMessage();
-                    notSentMails.add(report);
-                }
+                throw new OrchestratorException(ex);
             }
+        }
 
+        for (MailConsumer consumer: consumers) {
+            notSentMails.addAll(consumer.getNotSentWorkersNames());
         }
 
 
@@ -89,7 +96,7 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
                                 " || mails produced: " + mailProduced);
             executorService.shutdown();
             setWorkersNotSentList(notSentMails);
-            throw new Exception("not all mails were sent");
+            throw new OrchestratorException("not all mails were sent");
         }
 
         else {
@@ -99,16 +106,22 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
 
     }
 
-    private void setWorkersNotSentList (List<String> notSentMailsList) {
-
+    private void setWorkersNotSentList (Set<String> notSentMailsList) {
         for (Worker currWorker : XMLService.getWorkerList()) {
             for (String currEmail: notSentMailsList) {
                 if (currEmail.equals(currWorker.getMail()))
                     notSentWorkers.add(currWorker);
-
             }
         }
+    }
 
+    private void setdupEmailsWorkersList (Set<String> notSentMailsList) {
+        for (String dupEmail: notSentMailsList) {
+            for (Worker currWorker : XMLService.getWorkerList()) {
+                if (dupEmail.equals(currWorker.getMail()))
+                    dupEmailsWorkers.add(currWorker);
+            }
+        }
     }
 
 

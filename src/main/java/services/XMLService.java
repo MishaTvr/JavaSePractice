@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,9 +46,15 @@ public class XMLService implements FileLoader {
 
     public List<Worker> createWorkerList() {
 
+        String path = "";
 
-
-        String path = getFilePath(fileName);
+        try {
+            path = getFilePath(fileName);
+        }
+        catch (NoSuchFileException ex) {
+            System.out.println(ex.getMessage());
+            System.exit(-1);
+        }
 
         try {
 
