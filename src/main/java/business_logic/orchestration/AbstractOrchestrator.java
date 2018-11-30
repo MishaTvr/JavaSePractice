@@ -1,5 +1,6 @@
 package business_logic.orchestration;
 
+import exceptions.OrchestratorException;
 import persistence.entities.Worker;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public abstract class AbstractOrchestrator<Producer extends Callable<Integer>,Co
     List<Worker> notSentWorkers = new ArrayList<>();
     List<Worker> dupEmailsWorkers = new ArrayList<>();
 
-    public abstract void orchestrate() throws Exception;
+    public abstract void orchestrate() throws OrchestratorException;
 
 
 }

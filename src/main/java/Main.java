@@ -41,7 +41,8 @@ public class Main {
                 for (Worker currWorker: dupEmails)
                     System.out.println(currWorker);
             }
-                System.out.println(ex.getMessage());
+            System.out.println("\n------------EXCEPTION'S ESSENCE----------------\n");
+            ex.printStackTrace(System.out);
             System.exit(-1);
         }
 

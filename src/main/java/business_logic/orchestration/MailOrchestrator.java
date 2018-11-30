@@ -42,13 +42,14 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
 
 
     @Override
-    public void orchestrate() throws Exception {
+    public void orchestrate() throws OrchestratorException {
         Set<String> notSentMails = new LinkedHashSet<>();
         int mailConsumed = 0;
         int mailProduced = 0;
 
         if (producers.size() != 1) {
             System.out.println(producers.size());
+            executorService.shutdown();
             throw new OrchestratorException("TOO MANY PRODUCERS");
         }
 
@@ -65,14 +66,12 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
         try {
             mailProduced = Integer.parseInt(producerFuture.get().toString());
         }
-        catch (ExecutionException ex) {
+        catch (Exception ex) {
             if (ex.getMessage().contains("DUP_EMAILS_ERR!")) {
                 setdupEmailsWorkersList(producers.get(0).getDupEmails());
-                throw new OrchestratorException(ex);
             }
-            else
-                throw new OrchestratorException(ex);
-
+            executorService.shutdown();
+            throw new OrchestratorException(ex);
         }
 
         for (Future currentNum: consFutureList) {
@@ -80,7 +79,8 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
             try {
                 mailConsumed += Integer.parseInt(currentNum.get().toString());
             }
-            catch (ExecutionException ex) {
+            catch (Exception ex) {
+                executorService.shutdown();
                 throw new OrchestratorException(ex);
             }
         }
