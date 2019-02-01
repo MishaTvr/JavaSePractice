@@ -28,7 +28,7 @@ public class MailProducer implements Callable<Integer> {
 
     @Override
     public Integer call() throws ProducerException {
-        List<Mail> mailList = Mail.getMailList((new WorkerDAO()).findAll());
+        List<Mail> mailList = Mail.getMailList(WorkerDAO.extractWorkers());
         Set<String> emailSet = new LinkedHashSet<>();
         for (Mail mail: mailList) {
             if (!emailSet.add(mail.getEmail())) {

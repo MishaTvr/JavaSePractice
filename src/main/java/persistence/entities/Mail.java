@@ -17,7 +17,6 @@ public class Mail implements FileLoader {
     private String email;
     private String subject = "Salary Alert";
 
-
     public String getSubject() {
         return subject;
     }
@@ -31,6 +30,15 @@ public class Mail implements FileLoader {
             mailList.add(new Mail(worker));
         }
         return mailList;
+    }
+
+    public Mail () {
+
+    }
+
+
+    public String getFileName() {
+        return fileName;
     }
 
     public Mail (Worker worker) {
@@ -80,7 +88,11 @@ public class Mail implements FileLoader {
 
     }
 
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
-
-
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 }

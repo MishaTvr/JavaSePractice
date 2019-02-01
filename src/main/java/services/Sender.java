@@ -10,8 +10,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class Sender {
-    private static String username = "georgybocharovfrtc@gmail.com";
-    private static String password = "Georg_The_Hunter1998";
+    private static String username;
+    private static String password;
 
 
     public static int send(Mail mail) throws SenderException {
@@ -42,5 +42,13 @@ public class Sender {
             throw new SenderException(mail.getEmail(), e);
         }
         return 1;
+    }
+
+    public static void setUsername(String username) {
+        Sender.username = username;
+    }
+
+    public static void setPassword(String password) {
+        Sender.password = password;
     }
 }

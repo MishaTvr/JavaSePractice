@@ -31,6 +31,31 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
         executorService =  Executors.newFixedThreadPool(threadAmount);
     }
 
+    public MailOrchestrator(MailContainer mailContainer, int consAmount, int prodAmount) {
+        this.mailContainer = mailContainer;
+        this.consumers = setConsumers(mailContainer, consAmount);
+        this.producers = setProducers(mailContainer, prodAmount);
+        executorService =  Executors.newFixedThreadPool(threadAmount);
+    }
+
+
+    private List <MailConsumer> setConsumers(MailContainer container, int amount) {
+        List<MailConsumer> consumerList = new ArrayList<>();
+        for (int i = 0; i < amount; i++) {
+            consumerList.add(new MailConsumer(container));
+        }
+        return consumerList;
+    }
+
+    private List <MailProducer> setProducers(MailContainer container, int amount) {
+        List<MailProducer> producerList = new ArrayList<>();
+        for (int i = 0; i < amount; i++) {
+            producerList.add(new MailProducer(container));
+        }
+        return producerList;
+    }
+
+
 
     public List <Worker> getNotSentWorkersList() {
         return notSentWorkers;
@@ -48,7 +73,7 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
         int mailProduced = 0;
 
         if (producers.size() != 1) {
-            System.out.println(producers.size());
+            System.out.println("producers amount: " + producers.size());
             executorService.shutdown();
             throw new OrchestratorException("TOO MANY PRODUCERS");
         }

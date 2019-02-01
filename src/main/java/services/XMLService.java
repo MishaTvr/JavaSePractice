@@ -25,10 +25,15 @@ import java.util.List;
 
 public class XMLService implements FileLoader {
 
-    private static String fileName = "recipients.xml";
+
+
+    private static String fileName;
     private static List<Worker> workerList = new ArrayList<>();
     private static XMLService instance;
 
+    public static void setFileName(String fileName) {
+        XMLService.fileName = fileName;
+    }
 
     private XMLService() {
     }
