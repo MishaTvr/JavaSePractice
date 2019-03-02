@@ -8,6 +8,13 @@ public class Property {
         return value;
     }
 
+    public void setProperty(String name, String value) {
+        this.value = value;
+        this.name = name;
+    }
+
+
+
     public String getName() {
         return name;
     }

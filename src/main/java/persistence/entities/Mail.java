@@ -7,15 +7,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Mail implements FileLoader {
-    private String message = null;
-    private String fileName = "letterTemplate.txt";
     private String email;
-    private String subject = "Salary Alert";
+    private String message = null;
+
+    private String fileName;
+    private String subject;
+
 
     public String getSubject() {
         return subject;
@@ -24,26 +25,17 @@ public class Mail implements FileLoader {
     public String getMessage() {return message;}
     public String getEmail() {return email;}
 
-    public static List<Mail>  getMailList (List<Worker> workerList) {
-        List<Mail> mailList = new ArrayList<>();
-        for(Worker worker: workerList) {
-            mailList.add(new Mail(worker));
-        }
-        return mailList;
-    }
 
-    public Mail () {
-
+    public Mail(String fileName, String subject) {
+        this.subject = subject;
+        this.fileName = fileName;
     }
 
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public Mail (Worker worker) {
+    public void createMail (Worker worker) {
+        email = worker.getMail();
+        List <Property> propertyList = worker.getPropertyList();
         String path = "";
-
         try {
             path = getFilePath(fileName);
         }
@@ -68,8 +60,6 @@ public class Mail implements FileLoader {
             ex.printStackTrace(System.out);
         }
 
-        email = worker.getMail();
-        List <Property> propertyList = worker.getPropertyList();
 
 
         for (Property prop: propertyList) {
@@ -88,11 +78,4 @@ public class Mail implements FileLoader {
 
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
 }

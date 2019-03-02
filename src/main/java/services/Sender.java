@@ -1,6 +1,9 @@
 package services;
 
 import exceptions.SenderException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import persistence.entities.Mail;
 
 import java.util.Properties;
@@ -9,12 +12,16 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+
+@PropertySource("file:/home/george/IdeaProjects/Mailer/src/main/resources/mainProps.properties")
 public class Sender {
-    private static String username;
-    private static String password;
+    @Value("${emailUserName}")
+    private String username;
+    @Value("${emailPassword}")
+    private String password;
 
 
-    public static int send(Mail mail) throws SenderException {
+    public int send(Mail mail) throws SenderException {
         Properties props;
         props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -44,11 +51,11 @@ public class Sender {
         return 1;
     }
 
-    public static void setUsername(String username) {
-        Sender.username = username;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public static void setPassword(String password) {
-        Sender.password = password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

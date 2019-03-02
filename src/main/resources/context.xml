@@ -6,55 +6,49 @@
  		http://www.springframework.org/schema/beans
  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-        <bean class="services.XMLService" id = "XMLService">
-            <property name="fileName" value="recipients.xml" />
-        </bean>
-
-        <bean class="structures.MailContainer" id="container" >
-            <constructor-arg value="7"/>
-        </bean>
-
-        <bean class="business_logic.MailProducer">
-            <constructor-arg ref="container" />
-        </bean>
-
-        <bean class="business_logic.MailConsumer">
-            <constructor-arg ref="container"/>
-        </bean>
-
-        <bean class="business_logic.orchestration.MailOrchestrator">
-            <constructor-arg ref="container"/>
-            <constructor-arg value="3"/>
-            <constructor-arg value="1"/>
-        </bean>
-
-    <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/WorkerList?LegacyDatetimeCode=false&amp;serverTimezone=UTC" />
-        <property name="username" value="root" />
-        <property name="password" value="2718" />
-
-    </bean>
-
-    <bean class="persistence.dao.WorkerDAO">
-        <property name="dbClass" value="org.springframework.jdbc.datasource.DriverManagerDataSource" />
-        <property name="dbURL" value="jdbc:mysql://localhost:3306/WorkerList?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
-        <property name="user" value="root" />
-        <property name="password" value="2718" />
-    </bean>
-
-        <!--<bean class="persistence.entities.Worker" id = "worker" />-->
-        <!--<bean class="persistence.entities.Mail" id = "mail">-->
-            <!--<constructor-arg ref="worker"/>-->
-            <!--<property name="fileName" value="letterTemplate.txt"/>-->
-            <!--<property name="subject" value="Salary Alert"/>-->
+        <!--<bean class="services.XMLService" id = "XMLService">-->
+            <!--<property name="fileName" value="recipients.xml" />-->
         <!--</bean>-->
-        <bean class="services.Sender" id = "sender">
-            <property name="username" value="georgybocharovfrtc@gmail.com"/>
-            <property name="password" value="Georg_The_Hunter1998" />
-        </bean>
+
+        <!--<bean class="structures.MailContainer" id="container" >-->
+            <!--<constructor-arg value="7"/>-->
+        <!--</bean>-->
+
+        <!--<bean class="business_logic.MailProducer">-->
+            <!--<constructor-arg ref="container" />-->
+        <!--</bean>-->
+
+        <!--<bean class="business_logic.MailConsumer">-->
+            <!--<constructor-arg ref="container"/>-->
+        <!--</bean>-->
+
+        <!--<bean class="business_logic.orchestration.MailOrchestrator">-->
+            <!--<constructor-arg ref="container"/>-->
+            <!--<constructor-arg value="3"/>-->
+            <!--<constructor-arg value="1"/>-->
+        <!--</bean>-->
+
+    <!--<bean id="dataSource"-->
+          <!--class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+
+        <!--<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />-->
+        <!--<property name="url" value="jdbc:mysql://localhost:3306/WorkerList?LegacyDatetimeCode=false&amp;serverTimezone=UTC" />-->
+        <!--<property name="username" value="root" />-->
+        <!--<property name="password" value="2718" />-->
+
+    <!--</bean>-->
+
+    <!--<bean class="persistence.dao.WorkerDAO">-->
+        <!--<property name="dbClass" value="org.springframework.jdbc.datasource.DriverManagerDataSource" />-->
+        <!--<property name="dbURL" value="jdbc:mysql://localhost:3306/WorkerList?useSSL=false&amp;useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />-->
+        <!--<property name="user" value="root" />-->
+        <!--<property name="password" value="2718" />-->
+    <!--</bean>-->
+
+        <!--<bean class="services.Sender" id = "sender">-->
+            <!--<property name="username" value="georgybocharovfrtc@gmail.com"/>-->
+            <!--<property name="password" value="Georg_The_Hunter1998" />-->
+        <!--</bean>-->
 
 </beans>
 

@@ -1,56 +1,44 @@
 package persistence.dao;
 
-import configuration.AppConfig;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import configuration.BeansLoader.BeanBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import persistence.entities.Property;
 import persistence.entities.Worker;
 import services.XMLService;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.*;
 import java.util.List;
 
-
-
 public class WorkerDAO implements AbstractDAO<Worker, String> {
-    private static String dbClass;
-    private static String dbURL;
-    private static String user;
-    private static String password;
+
+    private String dbURL;
+    private String user;
+    private String password;
+
     private static List<Worker> workerList;
+    private static int dbLength;
     private static WorkerDAO instance;
 
 
+    @Autowired
+    public BeanBuilder<Worker> workerBeanBuilder;
+    @Autowired
+    public BeanBuilder<Property> propertyBeanBuilder;
 
-    private WorkerDAO () {}
+    private WorkerDAO() { }
 
     public static WorkerDAO getInstance(){
-        if(instance == null){
-            return new WorkerDAO();
-        }else
-            return instance;
+        if (WorkerDAO.instance == null) {
+            WorkerDAO.instance = new WorkerDAO();
+            return WorkerDAO.instance;
+        }
+        else
+            return WorkerDAO.instance;
     }
 
-    public void setDbURL(String dbURL) {
-        WorkerDAO.dbURL = dbURL;
-    }
-
-    public void setUser(String user) {
-        WorkerDAO.user = user;
-    }
-
-    public void setPassword(String password) {
-        WorkerDAO.password = password;
-    }
-
-    public void setDbClass(String dbClass) {
-
-        WorkerDAO.dbClass = dbClass;
+    public int getDbLength() {
+        return dbLength;
     }
 
     public static List<Worker> getWorkerList() {
@@ -63,46 +51,81 @@ public class WorkerDAO implements AbstractDAO<Worker, String> {
 
 
 
-    public static List<Worker> extractWorkers() {
-        List<Worker> workerList = new ArrayList<>();
-        try {
-            System.out.println("maybe here");
-            System.out.println(dbClass);
-            System.out.println(dbURL);
 
-            Class.forName(dbClass).newInstance();
-            System.out.println("maybe here1");
+
+    public int setDbLength(String dbURL, String user, String password) {
+        int length = 0;
+        this.password = password;
+        this.user = user;
+        this.dbURL = dbURL;
+        try(Connection con =DriverManager.getConnection(dbURL,user, password)) {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select count(*) from workers ;");
+            rs.next();
+            length = rs.getInt(1);
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.exit(-1);
+        }
+        WorkerDAO.dbLength = length;
+        return length;
+
+    }
+
+
+    public List<Worker> extractWorkers() {
+        List<Worker> workers = workerBeanBuilder.load();
+        List<Property> propertyList = propertyBeanBuilder.load();
+
+        try {
+
+
             Connection con = DriverManager.getConnection(dbURL,user, password);
-            System.out.println("maybe here2");
             Statement st = con.createStatement();
             String sql =  ("SELECT * FROM workers ;");
             ResultSet rs = st.executeQuery(sql);
 
-            //ApplicationContext factory = new AnnotationConfigApplicationContext(AppConfig.class);
+
+
+            int counter = 0;
+            int counter1 = 0;
+
 
 
             while (rs.next()) {
-                Worker currentWorker = new Worker();
+
+
+
+                Worker currentWorker = workers.get(counter);
+
                 currentWorker.setMail(rs.getString("email"));
-                Property fullName = new Property("full-name", rs.getString("name"));
-                Property department = new Property("department", rs.getString("department"));
-                Property salary = new Property("salary", rs.getString("salary"));
+
+                Property fullName = propertyList.get(counter1);
+                Property department = propertyList.get(counter1 + 1);
+                Property salary = propertyList.get(counter1 + 2);
+
+                fullName.setProperty("full-name", rs.getString("name"));
+                department.setProperty("department", rs.getString("department"));
+                salary.setProperty("salary", rs.getString("salary"));
+
                 currentWorker.addProperty(fullName);
                 currentWorker.addProperty(department);
                 currentWorker.addProperty(salary);
-                workerList.add(currentWorker);
+                counter++;
+                counter1 +=3;
             }
 
 
         }
         catch (Exception ex) {
+            System.out.println("WorkerDAO ERROR:");
             System.out.println(ex.getMessage());
             System.exit(32443);
         }
+        workerList = workers;
 
-        WorkerDAO.workerList = workerList;
-
-        return workerList;
+        return workers;
     }
 
     }

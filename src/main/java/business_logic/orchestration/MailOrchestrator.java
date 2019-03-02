@@ -2,7 +2,9 @@ package business_logic.orchestration;
 
 import business_logic.MailConsumer;
 import business_logic.MailProducer;
+import configuration.BeansLoader.BeanBuilder;
 import exceptions.OrchestratorException;
+import org.springframework.beans.factory.annotation.Autowired;
 import persistence.entities.Worker;
 import services.XMLService;
 import structures.MailContainer;
@@ -11,48 +13,42 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 
 public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailConsumer> {
 
-    private MailContainer mailContainer;
+    @Autowired
+    MailContainer mailContainer;
+
+    @Autowired
+    BeanBuilder<MailConsumer> mailConsumerBeanBuilder;
+
+    @Autowired
+    BeanBuilder<MailProducer> mailProducerBeanBuilder;
+
+
+
+
 
     public void setThreadAmount (int threadAmount) {
         this.threadAmount = threadAmount;
     }
 
-    public MailOrchestrator(MailContainer mailContainer, List<MailProducer> producers, List<MailConsumer> consumers) {
-        this.mailContainer = mailContainer;
-        this.consumers = consumers;
-        this.producers = producers;
-        executorService =  Executors.newFixedThreadPool(threadAmount);
-    }
 
-    public MailOrchestrator(MailContainer mailContainer, int consAmount, int prodAmount) {
-        this.mailContainer = mailContainer;
-        this.consumers = setConsumers(mailContainer, consAmount);
-        this.producers = setProducers(mailContainer, prodAmount);
+    public MailOrchestrator(int amount) {
+        threadAmount = amount;
         executorService =  Executors.newFixedThreadPool(threadAmount);
     }
 
 
-    private List <MailConsumer> setConsumers(MailContainer container, int amount) {
-        List<MailConsumer> consumerList = new ArrayList<>();
-        for (int i = 0; i < amount; i++) {
-            consumerList.add(new MailConsumer(container));
-        }
-        return consumerList;
+    private List <MailConsumer> setConsumers() {
+        return mailConsumerBeanBuilder.load();
     }
 
-    private List <MailProducer> setProducers(MailContainer container, int amount) {
-        List<MailProducer> producerList = new ArrayList<>();
-        for (int i = 0; i < amount; i++) {
-            producerList.add(new MailProducer(container));
-        }
-        return producerList;
+    private List <MailProducer> setProducers() {
+        return mailProducerBeanBuilder.load();
     }
 
 
@@ -68,7 +64,12 @@ public class MailOrchestrator extends AbstractOrchestrator<MailProducer, MailCon
 
     @Override
     public void orchestrate() throws OrchestratorException {
+        consumers = this.setConsumers();
+        producers = this.setProducers();
+
+
         Set<String> notSentMails = new LinkedHashSet<>();
+
         int mailConsumed = 0;
         int mailProduced = 0;
 
